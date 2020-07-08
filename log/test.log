@@ -1,0 +1,1569 @@
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "admins"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "admins" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "art_tampers"[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "signifcant_tamper" boolean, "used_program" boolean, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "breaths"[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "bumps"[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "flashes"[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "paintings"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "paintings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "objectID" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "tampers"[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "significant_tamper" boolean, "used_program" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "touches"[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aart_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aart_tampers_on_painting_id" ON "aart_tampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "aart_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "art_tampers"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3e21286338"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "art_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "aart_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aart_tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abreaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abreaths_on_painting_id" ON "abreaths" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "abreaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "breaths"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_572ffa27bb"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "breaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abreaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abreaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abumps_on_painting_id" ON "abumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "abumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "bumps"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a3db946a8a"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "bumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aflashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aflashes_on_painting_id" ON "aflashes" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "aflashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "flashes"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "flashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_72303a03af"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "flashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "aflashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aflashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atampers_on_painting_id" ON "atampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4473fabaf7"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "tampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atouches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atouches_on_painting_id" ON "atouches" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atouches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "touches"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "touches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_989e20ada3"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "touches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "atouches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atouches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200705013901)[0m
+  [1m[35m (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200625141518),
+(20200625173126),
+(20200625203710),
+(20200625203758),
+(20200625203811),
+(20200625203855),
+(20200626160922);
+
+[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-07-05 01:47:48.600138"], ["updated_at", "2020-07-05 01:47:48.600138"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "01c605c4df6688f74442ed18d6f4e2171355d6a6"], ["created_at", "2020-07-05 01:47:48.602694"], ["updated_at", "2020-07-05 01:47:48.602694"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "admins"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "admins"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "admins"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "admins"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "admins"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "admins"[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "admins" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "admins" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "admins" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "admins"[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "admins" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "art_tampers"[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "admins" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE TABLE "admins" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "art_tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "art_tampers"[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "admins" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "signifcant_tamper" boolean, "used_program" boolean, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "signifcant_tamper" boolean, "used_program" boolean, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "admins"[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "signifcant_tamper" boolean, "used_program" boolean, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "art_tampers"[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "signifcant_tamper" boolean, "used_program" boolean, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "signifcant_tamper" boolean, "used_program" boolean, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "signifcant_tamper" boolean, "used_program" boolean, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "signifcant_tamper" boolean, "used_program" boolean, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "admins" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar, "password_digest" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "art_tampers"[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (2.3ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "breaths"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "breaths"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "breaths"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "breaths"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "breaths"[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "signifcant_tamper" boolean, "used_program" boolean, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "breaths"[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "bumps"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE IF EXISTS "bumps"[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "bumps"[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "bumps"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "bumps"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "bumps"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "bumps"[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "bumps"[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "flashes"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "flashes"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "flashes"[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "flashes"[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "flashes"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "flashes"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "flashes"[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "flashes"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "paintings"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "paintings"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "paintings"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "paintings"[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "paintings"[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "paintings"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "paintings"[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "paintings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "objectID" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "paintings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "objectID" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "paintings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "objectID" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "paintings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "objectID" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "paintings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "objectID" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "tampers"[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "paintings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "objectID" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "tampers"[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "paintings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "objectID" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "paintings"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "significant_tamper" boolean, "used_program" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "significant_tamper" boolean, "used_program" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "significant_tamper" boolean, "used_program" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "significant_tamper" boolean, "used_program" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "significant_tamper" boolean, "used_program" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "significant_tamper" boolean, "used_program" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "paintings" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "objectID" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "significant_tamper" boolean, "used_program" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "tampers"[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "touches"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "touches"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "touches"[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "touches"[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "significant_tamper" boolean, "used_program" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "touches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "touches"[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "touches"[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "touches"[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aart_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aart_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aart_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "tindex_aart_tampers_on_painting_id" ON "aart_tampers" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "tindex_aart_tampers_on_painting_id" ON "aart_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aart_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "art_tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aart_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "art_tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "tindex_aart_tampers_on_painting_id" ON "aart_tampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aart_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "art_tampers"[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aart_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aart_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aart_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aart_tampers_on_painting_id" ON "aart_tampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3e21286338"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aart_tampers_on_painting_id" ON "aart_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aart_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "art_tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3e21286338"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aart_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3e21286338"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aart_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "art_tampers"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "art_tampers"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aart_tampers_on_painting_id" ON "aart_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aart_tampers_on_painting_id" ON "aart_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aart_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "art_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "aart_tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3e21286338"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aart_tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aart_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "art_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "art_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "aart_tampers"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "art_tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3e21286338"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "art_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "aart_tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aart_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "aart_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aart_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE "art_tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "art_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "aart_tampers"[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aart_tampers"[0m
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "art_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "aart_tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "tindex_aart_tampers_on_painting_id" ON "aart_tampers" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3e21286338"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aart_tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3e21286338"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aart_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "art_tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abreaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "art_tampers"[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abreaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abreaths_on_painting_id" ON "abreaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "art_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "aart_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abreaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aart_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "art_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "aart_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "art_tampers" ("id" integer NOT NULL PRIMARY KEY, "signifcant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_3e21286338"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "abreaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aart_tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abreaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abreaths_on_painting_id" ON "abreaths" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "tindex_abreaths_on_painting_id" ON "abreaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_art_tampers_on_painting_id" ON "art_tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abreaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "abreaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "abreaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "art_tampers" ("id","signifcant_tamper","used_program","painting_id","created_at","updated_at")
+                     SELECT "id","signifcant_tamper","used_program","painting_id","created_at","updated_at" FROM "aart_tampers"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_572ffa27bb"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aart_tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abreaths_on_painting_id" ON "abreaths" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "tindex_abreaths_on_painting_id" ON "abreaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "breaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "abreaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "abreaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "breaths"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "breaths"[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abreaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_572ffa27bb"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_572ffa27bb"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abreaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "breaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abreaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_572ffa27bb"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abreaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_572ffa27bb"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abreaths_on_painting_id" ON "abreaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "abreaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "tindex_abreaths_on_painting_id" ON "abreaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "breaths"[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abreaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "breaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abreaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "breaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abreaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abreaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "breaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abreaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "abreaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "breaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "breaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abreaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abreaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abreaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abreaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "breaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_572ffa27bb"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abreaths_on_painting_id" ON "abreaths" ("painting_id")[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "abreaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "breaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_572ffa27bb"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "breaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "breaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abreaths"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abumps_on_painting_id" ON "abumps" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abreaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "breaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abreaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "abumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abreaths"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "breaths" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_572ffa27bb"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "bumps"[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abumps_on_painting_id" ON "abumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abumps_on_painting_id" ON "abumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "abumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "bumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_breaths_on_painting_id" ON "breaths" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "abumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a3db946a8a"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abumps_on_painting_id" ON "abumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "breaths" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abreaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "bumps"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "tindex_abumps_on_painting_id" ON "abumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "abumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abreaths"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "abumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a3db946a8a"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a3db946a8a"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abumps_on_painting_id" ON "abumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "bumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abumps"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "bumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a3db946a8a"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "abumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "bumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abumps_on_painting_id" ON "abumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "bumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "bumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "abumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "bumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a3db946a8a"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "bumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abumps"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "abumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a3db946a8a"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a3db946a8a"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_abumps_on_painting_id" ON "abumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aflashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "bumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "abumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "bumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "bumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abumps"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "bumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aflashes_on_painting_id" ON "aflashes" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aflashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aflashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aflashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "bumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aflashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "flashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aflashes_on_painting_id" ON "aflashes" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aflashes_on_painting_id" ON "aflashes" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "flashes"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "bumps" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a3db946a8a"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aflashes_on_painting_id" ON "aflashes" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aflashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "flashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aflashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "flashes"[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "flashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aflashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "flashes"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "flashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aflashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_bumps_on_painting_id" ON "bumps" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_72303a03af"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "flashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "bumps" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "abumps"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_72303a03af"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_72303a03af"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "abumps"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aflashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aflashes_on_painting_id" ON "aflashes" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aflashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aflashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "flashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_72303a03af"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "flashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "flashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "aflashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "flashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "aflashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "flashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "aflashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aflashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aflashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aflashes_on_painting_id" ON "aflashes" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aflashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aflashes_on_painting_id" ON "aflashes" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aflashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "flashes"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aflashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "flashes"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "flashes"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_72303a03af"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "flashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "aflashes"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "flashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aflashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aflashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (1.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_72303a03af"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (1.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_aflashes_on_painting_id" ON "aflashes" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_72303a03af"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aflashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "flashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "flashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "aflashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "flashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "flashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "aflashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aflashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aflashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "flashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "aflashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "flashes" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_72303a03af"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aflashes"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atampers_on_painting_id" ON "atampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_flashes_on_painting_id" ON "flashes" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atampers_on_painting_id" ON "atampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "flashes" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "aflashes"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atampers_on_painting_id" ON "atampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aflashes"[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atampers_on_painting_id" ON "atampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "atampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4473fabaf7"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "tampers"[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE "tampers"[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atampers_on_painting_id" ON "atampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atampers_on_painting_id" ON "atampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4473fabaf7"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "atampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "tampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atampers_on_painting_id" ON "atampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4473fabaf7"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4473fabaf7"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "tampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "tampers"[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4473fabaf7"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4473fabaf7"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "tampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "tampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4473fabaf7"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atampers_on_painting_id" ON "atampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "tampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "atampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "tampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "atampers"[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "tampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "tampers"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atouches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "tampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atampers"[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "tampers" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "significant_tamper" boolean DEFAULT NULL, "used_program" boolean DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_4473fabaf7"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atouches_on_painting_id" ON "atouches" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atouches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atouches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "touches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atouches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "touches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atouches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atouches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_tampers_on_painting_id" ON "tampers" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atouches_on_painting_id" ON "atouches" ("painting_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atouches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atouches_on_painting_id" ON "atouches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_989e20ada3"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "tampers" ("id","painting_id","significant_tamper","used_program","created_at","updated_at")
+                     SELECT "id","painting_id","significant_tamper","used_program","created_at","updated_at" FROM "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "atouches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "touches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atampers"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atouches_on_painting_id" ON "atouches" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atouches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "touches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atouches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "touches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atouches_on_painting_id" ON "atouches" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atouches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "touches"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "touches"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "tindex_atouches_on_painting_id" ON "atouches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "atouches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "touches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "touches"[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "atouches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "touches"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "touches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "atouches"[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "touches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atouches_on_painting_id" ON "atouches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atouches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_989e20ada3"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "touches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_989e20ada3"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.0ms)[0m  [1m[32mINSERT INTO "atouches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "touches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_989e20ada3"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE "touches"[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_989e20ada3"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_989e20ada3"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "touches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "atouches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atouches"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "touches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "atouches"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "touches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "atouches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atouches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "atouches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atouches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_989e20ada3"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "touches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "atouches"[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atouches"[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "touches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "atouches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atouches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "tindex_atouches_on_painting_id" ON "atouches" ("painting_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "atouches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "touches"[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "touches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "atouches"[0m
+  [1m[35m (0.5ms)[0m  [1m[35mDROP TABLE "touches"[0m
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "atouches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "touches" ("id" integer NOT NULL PRIMARY KEY, "painting_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_989e20ada3"
+FOREIGN KEY ("painting_id")
+  REFERENCES "paintings" ("id")
+)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE  INDEX "index_touches_on_painting_id" ON "touches" ("painting_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "touches" ("id","painting_id","created_at","updated_at")
+                     SELECT "id","painting_id","created_at","updated_at" FROM "atouches"[0m
+  [1m[35m (1.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200705013901)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "atouches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200625141518),
+(20200625173126),
+(20200625203710),
+(20200625203758),
+(20200625203811),
+(20200625203855),
+(20200626160922);
+
+[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200705013901)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200705013901)[0m
+  [1m[35m (1.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200705013901)[0m
+  [1m[35m (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200705013901)[0m
+  [1m[35m (1.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200625141518),
+(20200625173126),
+(20200625203710),
+(20200625203758),
+(20200625203811),
+(20200625203855),
+(20200626160922);
+
+[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200705013901)[0m
+  [1m[35m (1.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200625141518),
+(20200625173126),
+(20200625203710),
+(20200625203758),
+(20200625203811),
+(20200625203855),
+(20200626160922);
+
+[0m
+  [1m[35m (1.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200625141518),
+(20200625173126),
+(20200625203710),
+(20200625203758),
+(20200625203811),
+(20200625203855),
+(20200626160922);
+
+[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200625141518),
+(20200625173126),
+(20200625203710),
+(20200625203758),
+(20200625203811),
+(20200625203855),
+(20200626160922);
+
+[0m
+  [1m[35m (1.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200625141518),
+(20200625173126),
+(20200625203710),
+(20200625203758),
+(20200625203811),
+(20200625203855),
+(20200626160922);
+
+[0m
+  [1m[35m (1.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200705013901)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200625141518),
+(20200625173126),
+(20200625203710),
+(20200625203758),
+(20200625203811),
+(20200625203855),
+(20200626160922);
+
+[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200705013901)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200625141518),
+(20200625173126),
+(20200625203710),
+(20200625203758),
+(20200625203811),
+(20200625203855),
+(20200626160922);
+
+[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-07-05 01:47:48.817584"], ["updated_at", "2020-07-05 01:47:48.817584"]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-07-05 01:47:48.817869"], ["updated_at", "2020-07-05 01:47:48.817869"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-07-05 01:47:48.817526"], ["updated_at", "2020-07-05 01:47:48.817526"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-07-05 01:47:48.818259"], ["updated_at", "2020-07-05 01:47:48.818259"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-07-05 01:47:48.818252"], ["updated_at", "2020-07-05 01:47:48.818252"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-07-05 01:47:48.820326"], ["updated_at", "2020-07-05 01:47:48.820326"]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "01c605c4df6688f74442ed18d6f4e2171355d6a6"], ["created_at", "2020-07-05 01:47:48.821943"], ["updated_at", "2020-07-05 01:47:48.821943"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "01c605c4df6688f74442ed18d6f4e2171355d6a6"], ["created_at", "2020-07-05 01:47:48.822034"], ["updated_at", "2020-07-05 01:47:48.822034"]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-07-05 01:47:48.821854"], ["updated_at", "2020-07-05 01:47:48.821854"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "01c605c4df6688f74442ed18d6f4e2171355d6a6"], ["created_at", "2020-07-05 01:47:48.822552"], ["updated_at", "2020-07-05 01:47:48.822552"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "01c605c4df6688f74442ed18d6f4e2171355d6a6"], ["created_at", "2020-07-05 01:47:48.822872"], ["updated_at", "2020-07-05 01:47:48.822872"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "01c605c4df6688f74442ed18d6f4e2171355d6a6"], ["created_at", "2020-07-05 01:47:48.822963"], ["updated_at", "2020-07-05 01:47:48.822963"]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2020-07-05 01:47:48.823076"], ["updated_at", "2020-07-05 01:47:48.823076"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "01c605c4df6688f74442ed18d6f4e2171355d6a6"], ["created_at", "2020-07-05 01:47:48.824813"], ["updated_at", "2020-07-05 01:47:48.824813"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "01c605c4df6688f74442ed18d6f4e2171355d6a6"], ["created_at", "2020-07-05 01:47:48.826283"], ["updated_at", "2020-07-05 01:47:48.826283"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "01c605c4df6688f74442ed18d6f4e2171355d6a6"], ["created_at", "2020-07-05 01:47:48.827353"], ["updated_at", "2020-07-05 01:47:48.827353"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
