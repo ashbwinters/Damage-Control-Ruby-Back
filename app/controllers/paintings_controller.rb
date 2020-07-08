@@ -13,7 +13,7 @@ class PaintingsController < ApplicationController
     end
 
     def show
-        @painting = Painting.find_or_create_by(accessionNumber: params[:id])
+        @painting = Painting.find_or_create_by(accessionNumber: params[:accessionNumber])
         render json: @painting, include: [:tampers, :breaths, :bumps, :flashes, :touches]
     end
 
