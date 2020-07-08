@@ -1,5 +1,5 @@
 class TampersController < ApplicationController
-    before_action :authenticate, only: [:create, :index, :show]
+    # before_action :authenticate, only: [:create, :index, :show]
 
     def create
         @tamper = Tamper.new(

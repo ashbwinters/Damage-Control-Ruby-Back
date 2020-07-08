@@ -1,5 +1,5 @@
 class BumpsController < ApplicationController
-    before_action :authenticate, only: [:index, :show]
+    # before_action :authenticate, only: [:index, :show]
 
     def create
         @bump = Bump.new(painting_id: params[:painting_id])

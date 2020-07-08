@@ -1,5 +1,5 @@
 class BreathsController < ApplicationController
-    before_action :authenticate, only: [:index, :show]
+    # before_action :authenticate, only: [:index, :show]
 
     def create
         @breath = Breath.new(painting_id: params[:painting_id])

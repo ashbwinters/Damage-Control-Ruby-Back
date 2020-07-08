@@ -1,5 +1,5 @@
 class FlashesController < ApplicationController
-    before_action :authenticate, only: [:index, :show]
+    # before_action :authenticate, only: [:index, :show]
 
     def create
         @flash = Flash.new(painting_id: params[:painting_id])

@@ -1,5 +1,5 @@
 class PaintingsController < ApplicationController
-    before_action :authenticate, only: [:create, :index, :show]
+    # before_action :authenticate, only: [:create, :index, :show]
 
     def create
         @painting = Painting.new(
