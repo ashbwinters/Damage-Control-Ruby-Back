@@ -5,6 +5,6 @@ class Painting < ApplicationRecord
     has_many :flashes
     has_many :touches
 
-    validates :objectID, presence: true
-    validates :objectID, uniqueness: true
+    validates :accessionNumber, presence: true
+    validates :accessionNumber, uniqueness: true
 end
