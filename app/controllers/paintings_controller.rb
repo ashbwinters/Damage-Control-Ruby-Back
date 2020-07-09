@@ -13,12 +13,18 @@ class PaintingsController < ApplicationController
     end
 
     def show
-        @painting = Painting.find_by(accessionNumber: [params])
+        @painting = Painting.find_by(accessionNumber: params[:id])
         render json: @painting, include: [:tampers, :breaths, :bumps, :flashes, :touches]
     end
 
     def index
-        @paintings = Painting.all
-        render json: @paintings, include: [:tampers, :breaths, :bumps, :flashes, :touches] 
+        if params[:accessionNumber] 
+            @result = Painting.find_by(accessionNumber: params[:accessionNumber])
+        else
+            @result = Painting.all
+        end
+
+        byebug@
+        render json: @result, include: [:tampers, :breaths, :bumps, :flashes, :touches] 
     end
 end
