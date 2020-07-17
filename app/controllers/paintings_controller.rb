@@ -19,7 +19,7 @@ class PaintingsController < ApplicationController
 
     def index
         if params[:accessionNumber] 
-            @result = Painting.find_or_create_by(accessionNumber: params[:accessionNumber])
+            @result = Painting.find_by(accessionNumber: params[:accessionNumber])
         else
             @result = Painting.all
         end
